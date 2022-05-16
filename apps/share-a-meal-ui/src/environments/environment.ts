@@ -1,15 +1,21 @@
 // This file can be replaced during build by using the `fileReplacements` array.
 // `ng build --prod` replaces `environment.ts` with `environment.prod.ts`.
 // The list of file replacements can be found in `angular.json`.
-// import { version } from '../../../../package.json'
+import { default as env } from '../../../../package.json'
 
 export const environment = {
   production: false,
 
-  SERVER_DOCS_URL: 'http://localhost:3000/docs',
-  SERVER_API_URL: 'http://localhost:3000/api/',
+  MEAL_DOCS_URL: 'http://localhost:3000/docs',
+  MEAL_API_URL: 'http://localhost:3000/api/',
 
-  appVersion: '1.2.3'
+  AUTH_API_DOCS_URL: 'http://localhost:3030/docs',
+  AUTH_API_URL: 'http://localhost:3010/api/',
+
+  USER_API_DOCS_URL: 'http://localhost:3030/docs',
+  USER_API_URL: 'http://localhost:3020/api/',
+
+  appVersion: env.version
 }
 
 /*

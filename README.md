@@ -15,9 +15,10 @@ This project was generated using [Nx](https://nx.dev).
 Run `ng serve my-app` for a dev server. Navigate to http://localhost:4200/. The app will automatically reload if you change any of the source files.
 
 ```
-nx s movies-ui
+nx s auth-api
+nx s meal-api
+nx s user-api
 nx s share-a-meal-ui
-nx s api
 ```
 
 ## Build
@@ -25,9 +26,10 @@ nx s api
 Run `ng build my-app` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `--prod` flag for a production build.
 
 ```
-nx b movies-ui
+nx b auth-api
+nx b meal-api
+nx b user-api
 nx b share-a-meal-ui
-nx b api
 ```
 
 ## Docker
@@ -36,28 +38,56 @@ The root Dockerfile contains the base image for all apps in the monorepo. This i
 
 ### Images and containers
 
-To build and run as separate images and containers:
+To build and run as separate images and containers, first build the base image
 
 ```
-// Base image
 docker build . -t my-base-image:nx-base
 ```
 
 Then:
 
 ```
-// API
-docker build . --file .\apps\api\Dockerfile --tag share-a-meal-api
-docker run -i -t share-a-meal-api
+// AuthAPI
+docker build . --file .\apps\auth-api\Dockerfile.web --tag auth-api
+docker run -i -t auth-api
+```
 
+To run the container and open a shell, so you can browse the file system, run
+`docker run -i -t auth-api /bin/bash`.
+
+```
 // UI
-docker build . --file .\apps\share-a-meal-ui\Dockerfile --tag share-a-meal-ui
+docker build . --file .\apps\share-a-meal-ui\Dockerfile.web --tag share-a-meal-ui
 docker run -p 4200:4200 -i -t share-a-meal-ui
 ```
 
 ### docker-compose
 
 You could also use docker-compose to run `docker-compose build` and/or `docker-compose up`.
+
+### Deploying Docker containers on Heroku
+
+Navigate to the root folder and follow these commands:
+
+```
+heroku create shareameal-api
+heroku container:login
+heroku container:push web --recursive -a shareameal-api
+heroku ps:scale web=1
+heroku container:release web  -a shareameal-api
+```
+
+Heroku will ask which of the web applications you want to deploy. Do this for both the API backend and the WebUI frontend.
+
+To inspect the logging, type `heroku logs -a shareameal-api`.
+
+### RabbitMq Docker container
+
+To start RabbitMq:
+
+```
+docker run -it --rm --name rabbitmq -e RABBITMQ_DEFAULT_USER=rmq_user -e RABBITMQ_DEFAULT_PASS=secret -p 5672:5672 -p 15672:15672 rabbitmq:3.9-management
+```
 
 ## Running unit tests
 

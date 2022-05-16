@@ -39,7 +39,11 @@ registerLocaleData(localeNl, 'nl')
     RouterModule,
     FormsModule,
     ReactiveFormsModule,
-    ConfigModule.forRoot({ apiEndpoint: environment.SERVER_API_URL }),
+    ConfigModule.forRoot({
+      authApiEndpoint: environment.AUTH_API_URL,
+      mealApiEndpoint: environment.MEAL_API_URL,
+      userApiEndpoint: environment.USER_API_URL
+    }),
     AuthModule,
     NgbModule,
     AppRoutingModule,

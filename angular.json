@@ -1,7 +1,7 @@
 {
   "version": 2,
   "projects": {
-    "api": "apps/api",
+    "api-e2e": "apps/api-e2e",
     "api-interfaces": "libs/api-interfaces",
     "auth": {
       "projectType": "library",
@@ -24,6 +24,59 @@
               "libs/auth/src/**/*.ts",
               "libs/auth/src/**/*.html"
             ]
+          }
+        }
+      },
+      "tags": []
+    },
+    "auth-api": {
+      "root": "apps/auth-api",
+      "sourceRoot": "apps/auth-api/src",
+      "projectType": "application",
+      "targets": {
+        "build": {
+          "executor": "@nrwl/node:build",
+          "outputs": ["{options.outputPath}"],
+          "options": {
+            "outputPath": "dist/apps/auth-api",
+            "main": "apps/auth-api/src/main.ts",
+            "tsConfig": "apps/auth-api/tsconfig.app.json",
+            "assets": ["apps/auth-api/src/assets"],
+            "generatePackageJson": true
+          },
+          "configurations": {
+            "production": {
+              "optimization": true,
+              "extractLicenses": true,
+              "inspect": false,
+              "fileReplacements": [
+                {
+                  "replace": "apps/auth-api/src/environments/environment.ts",
+                  "with": "apps/auth-api/src/environments/environment.prod.ts"
+                }
+              ]
+            }
+          }
+        },
+        "serve": {
+          "executor": "@nrwl/node:execute",
+          "options": {
+            "buildTarget": "auth-api:build"
+          }
+        },
+        "lint": {
+          "executor": "@nrwl/linter:eslint",
+          "outputs": ["{options.outputFile}"],
+          "options": {
+            "lintFilePatterns": ["apps/auth-api/**/*.ts"]
+          }
+        },
+        "test": {
+          "executor": "@nrwl/jest:jest",
+          "outputs": ["coverage/apps/auth-api"],
+          "options": {
+            "jestConfig": "apps/auth-api/jest.config.js",
+            "passWithNoTests": true
           }
         }
       },
@@ -57,6 +110,59 @@
       "tags": []
     },
     "feature": "libs/feature",
+    "meal-api": {
+      "root": "apps/meal-api",
+      "sourceRoot": "apps/meal-api/src",
+      "projectType": "application",
+      "targets": {
+        "build": {
+          "executor": "@nrwl/node:build",
+          "outputs": ["{options.outputPath}"],
+          "options": {
+            "outputPath": "dist/apps/meal-api",
+            "main": "apps/meal-api/src/main.ts",
+            "tsConfig": "apps/meal-api/tsconfig.app.json",
+            "assets": ["apps/meal-api/src/assets"],
+            "generatePackageJson": true
+          },
+          "configurations": {
+            "production": {
+              "optimization": true,
+              "extractLicenses": true,
+              "inspect": false,
+              "fileReplacements": [
+                {
+                  "replace": "apps/meal-api/src/environments/environment.ts",
+                  "with": "apps/meal-api/src/environments/environment.prod.ts"
+                }
+              ]
+            }
+          }
+        },
+        "serve": {
+          "executor": "@nrwl/node:execute",
+          "options": {
+            "buildTarget": "meal-api:build"
+          }
+        },
+        "lint": {
+          "executor": "@nrwl/linter:eslint",
+          "outputs": ["{options.outputFile}"],
+          "options": {
+            "lintFilePatterns": ["apps/meal-api/**/*.ts"]
+          }
+        },
+        "test": {
+          "executor": "@nrwl/jest:jest",
+          "outputs": ["coverage/apps/meal-api"],
+          "options": {
+            "jestConfig": "apps/meal-api/jest.config.js",
+            "passWithNoTests": true
+          }
+        }
+      },
+      "tags": []
+    },
     "movies-api": {
       "root": "apps/movies-api",
       "sourceRoot": "apps/movies-api/src",
@@ -337,6 +443,59 @@
     },
     "share-a-meal-ui-e2e": "apps/share-a-meal-ui-e2e",
     "ui": "libs/ui",
+    "user-api": {
+      "root": "apps/user-api",
+      "sourceRoot": "apps/user-api/src",
+      "projectType": "application",
+      "targets": {
+        "build": {
+          "executor": "@nrwl/node:build",
+          "outputs": ["{options.outputPath}"],
+          "options": {
+            "outputPath": "dist/apps/user-api",
+            "main": "apps/user-api/src/main.ts",
+            "tsConfig": "apps/user-api/tsconfig.app.json",
+            "assets": ["apps/user-api/src/assets"],
+            "generatePackageJson": true
+          },
+          "configurations": {
+            "production": {
+              "optimization": true,
+              "extractLicenses": true,
+              "inspect": false,
+              "fileReplacements": [
+                {
+                  "replace": "apps/user-api/src/environments/environment.ts",
+                  "with": "apps/user-api/src/environments/environment.prod.ts"
+                }
+              ]
+            }
+          }
+        },
+        "serve": {
+          "executor": "@nrwl/node:execute",
+          "options": {
+            "buildTarget": "user-api:build"
+          }
+        },
+        "lint": {
+          "executor": "@nrwl/linter:eslint",
+          "outputs": ["{options.outputFile}"],
+          "options": {
+            "lintFilePatterns": ["apps/user-api/**/*.ts"]
+          }
+        },
+        "test": {
+          "executor": "@nrwl/jest:jest",
+          "outputs": ["coverage/apps/user-api"],
+          "options": {
+            "jestConfig": "apps/user-api/jest.config.js",
+            "passWithNoTests": true
+          }
+        }
+      },
+      "tags": []
+    },
     "util": "libs/util"
   }
 }

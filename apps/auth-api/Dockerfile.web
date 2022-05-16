@@ -1,0 +1,48 @@
+# 
+# https://docs.docker.com/develop/develop-images/multistage-build/
+# 
+FROM my-base-image:nx-base AS base-image
+
+ARG NODE_ENV
+ARG BUILD_FLAG
+ARG JWT_SECRET
+ARG AUTH_API_HTTP_PORT
+ARG AUTH_API_MICROSERVICE_PORT
+ARG AUTH_API_MICROSERVICE_HOSTNAME
+
+
+WORKDIR /app/builder
+RUN npx nx build auth-api ${BUILD_FLAG}
+
+# 
+# Start a new empty layer and copy only the requires folders onto it. 
+# node:latest has bash installed, so you can run the container and open a shell on it.
+#
+# FROM node:16-alpine
+FROM node:latest
+
+WORKDIR /app/builder/dist
+COPY --from=base-image /app/builder/dist/apps/auth-api .
+RUN npm install
+
+# Expose is NOT supported by Heroku
+EXPOSE 3010
+EXPOSE 4010
+
+# ENV NODE_ENV=${NODE_ENV}
+# ENV JWT_SECRET=${JWT_SECRET}
+# ENV AUTH_API_HTTP_PORT=3010
+# # We provide the AuthApi microservice
+# ENV AUTH_API_MICROSERVICE_PORT=4010
+# ENV AUTH_API_MICROSERVICE_HOSTNAME=host.docker.internal
+# # We use the UserApi microservice as a client
+# ENV USER_API_MICROSERVICE_PORT=4020
+# ENV USER_API_MICROSERVICE_HOSTNAME=host.docker.internal
+
+# Run the image as a non-root user
+RUN adduser myuser
+USER myuser
+
+# Run the app.  CMD is required to run on Heroku
+# $PORT is set by Heroku			
+CMD node ./main.js
